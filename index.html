@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasyStreet E-Bikes | Premium Pre-Owned</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0f0f23 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(145deg, rgba(0, 255, 136, 0.1) 0%, rgba(0, 200, 255, 0.05) 100%);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 136, 0.1) 0%, transparent 50%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', monospace;
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 900;
+            background: linear-gradient(90deg, #00ff88, #00d4ff, #00ff88);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shine 3s linear infinite;
+            position: relative;
+            z-index: 1;
+        }
+
+        @keyframes shine {
+            to { background-position: 200% center; }
+        }
+
+        .hero-subtitle {
+            font-family: 'Exo 2', sans-serif;
+            font-size: 1.2rem;
+            color: #88ffcc;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-top: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Stats Banner */
+        .stats-banner {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 1rem;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 0.5rem 1rem;
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            color: #00ff88;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+            .cart-sidebar {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                z-index: 100;
+                border-radius: 20px 20px 0 0;
+                max-height: 60vh;
+                overflow-y: auto;
+            }
+        }
+
+        /* Category Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            font-family: 'Orbitron', monospace;
+            background: rgba(30, 30, 50, 0.8);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 10px;
+            color: #00ff88;
+            padding: 0.6rem 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .tab-btn:hover, .tab-btn.active {
+            background: linear-gradient(90deg, rgba(0, 255, 136, 0.3), rgba(0, 200, 255, 0.2));
+            border-color: #00ff88;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+
+        /* Section Title */
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            color: #00ff88;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Product Card */
+        .product-card {
+            background: linear-gradient(145deg, #1e1e32 0%, #14142a 100%);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: #00ff88;
+            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.2);
+        }
+
+        .product-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .product-card:hover::after {
+            left: 100%;
+        }
+
+        .product-emoji {
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .product-category {
+            font-size: 0.75rem;
+            color: #00d4ff;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-name {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.2rem;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .product-description {
+            font-size: 0.9rem;
+            color: #a0a0a0;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            color: #00ff88;
+            font-weight: 700;
+        }
+
+        .original-price {
+            font-size: 0.9rem;
+            color: #666;
+            text-decoration: line-through;
+            margin-left: 0.5rem;
+        }
+
+        .condition-badge {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.5rem;
+        }
+
+        .condition-excellent {
+            background: linear-gradient(90deg, rgba(0, 255, 136, 0.2), rgba(0, 255, 136, 0.1));
+            color: #00ff88;
+            border: 1px solid #00ff88;
+        }
+
+        .condition-good {
+            background: linear-gradient(90deg, rgba(0, 200, 255, 0.2), rgba(0, 200, 255, 0.1));
+            color: #00d4ff;
+            border: 1px solid #00d4ff;
+        }
+
+        .condition-fair {
+            background: linear-gradient(90deg, rgba(255, 200, 0, 0.2), rgba(255, 200, 0, 0.1));
+            color: #ffc800;
+            border: 1px solid #ffc800;
+        }
+
+        /* Specs Toggle */
+        .specs-toggle {
+            background: rgba(0, 0, 0, 0.3);
+            border: none;
+            color: #00d4ff;
+            padding: 0.5rem;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            font-family: 'Exo 2', sans-serif;
+            font-size: 0.85rem;
+        }
+
+        .specs-toggle:hover {
+            background: rgba(0, 200, 255, 0.1);
+        }
+
+        .specs-content {
+            display: none;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .specs-content.show {
+            display: block;
+        }
+
+        .specs-content p {
+            font-size: 0.85rem;
+            padding: 0.2rem 0;
+            color: #ccc;
+        }
+
+        .specs-content strong {
+            color: #00ff88;
+        }
+
+        /* Add to Cart Button */
+        .add-btn {
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(90deg, #00ff88, #00d4ff);
+            color: #0a0a0f;
+            border: none;
+            border-radius: 25px;
+            padding: 0.7rem 1.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            width: 100%;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .add-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 30px rgba(0, 255, 136, 0.4);
+        }
+
+        /* Cart Sidebar */
+        .cart-sidebar {
+            background: linear-gradient(180deg, #1e1e32 0%, #14142a 100%);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            height: fit-content;
+            position: sticky;
+            top: 2rem;
+        }
+
+        .cart-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3rem;
+            color: #00ff88;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .cart-empty {
+            text-align: center;
+            color: #666;
+            padding: 2rem 0;
+        }
+
+        .cart-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            padding: 0.8rem;
+            margin-bottom: 0.5rem;
+            border-left: 3px solid #00ff88;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-name {
+            color: #fff;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .cart-item-price {
+            color: #00ff88;
+            font-size: 0.9rem;
+        }
+
+        .cart-remove {
+            background: none;
+            border: none;
+            color: #ff6666;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 0.3rem;
+            transition: transform 0.2s;
+        }
+
+        .cart-remove:hover {
+            transform: scale(1.2);
+        }
+
+        .cart-total {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3rem;
+            color: #00ff88;
+            text-align: center;
+            padding: 1rem;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 10px;
+            margin-top: 1rem;
+        }
+
+        .cart-savings {
+            color: #00d4ff;
+            font-size: 0.85rem;
+            font-family: 'Exo 2', sans-serif;
+        }
+
+        .checkout-btn {
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(90deg, #00ff88, #00d4ff);
+            color: #0a0a0f;
+            border: none;
+            border-radius: 25px;
+            padding: 0.8rem 1.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            width: 100%;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .checkout-btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 5px 30px rgba(0, 255, 136, 0.4);
+        }
+
+        /* Toast Notification */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(90deg, #00ff88, #00d4ff);
+            color: #0a0a0f;
+            padding: 1rem 2rem;
+            border-radius: 30px;
+            font-family: 'Orbitron', monospace;
+            font-weight: 600;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .footer-text {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .footer-text small {
+            color: #555;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: linear-gradient(145deg, #1e1e32 0%, #14142a 100%);
+            border: 1px solid #00ff88;
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            max-width: 400px;
+            animation: modalIn 0.3s ease;
+        }
+
+        @keyframes modalIn {
+            from {
+                transform: scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal h2 {
+            font-family: 'Orbitron', monospace;
+            color: #00ff88;
+            margin-bottom: 1rem;
+        }
+
+        .modal p {
+            color: #ccc;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-btn {
+            font-family: 'Orbitron', monospace;
+            background: linear-gradient(90deg, #00ff88, #00d4ff);
+            color: #0a0a0f;
+            border: none;
+            border-radius: 25px;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1 class="hero-title">⚡ EasyStreet E-Bikes</h1>
+            <p class="hero-subtitle">Premium Pre-Owned E-Bikes & Components</p>
+        </div>
+
+        <!-- Stats Banner -->
+        <div class="stats-banner">
+            <div class="stat-item">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Happy Riders</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">40%</div>
+                <div class="stat-label">Avg Savings</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">90</div>
+                <div class="stat-label">Day Warranty</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">⭐ 4.9</div>
+                <div class="stat-label">Rating</div>
+            </div>
+        </div>
+
+        <!-- Main Layout -->
+        <div class="main-layout">
+            <!-- Products Section -->
+            <div class="products-section">
+                <!-- Category Tabs -->
+                <div class="tabs">
+                    <button class="tab-btn active" data-category="all">🏠 All Products</button>
+                    <button class="tab-btn" data-category="E-Bikes">🚴 E-Bikes</button>
+                    <button class="tab-btn" data-category="Controllers">🎛️ Controllers</button>
+                    <button class="tab-btn" data-category="Batteries">🔋 Batteries</button>
+                    <button class="tab-btn" data-category="Motors">⚙️ Motors</button>
+                </div>
+
+                <h2 class="section-title">🔥 Featured Deals</h2>
+
+                <!-- Products Grid -->
+                <div class="products-grid" id="products-grid">
+                    <!-- Products will be inserted here by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Cart Sidebar -->
+            <div class="cart-sidebar">
+                <h3 class="cart-title">🛒 Your Cart</h3>
+                <div id="cart-items">
+                    <p class="cart-empty">Your cart is empty</p>
+                </div>
+                <div id="cart-summary" style="display: none;">
+                    <div class="cart-total">
+                        Total: $<span id="cart-total">0.00</span>
+                        <div class="cart-savings">You save: $<span id="cart-savings">0.00</span></div>
+                    </div>
+                    <button class="checkout-btn" onclick="checkout()">🚀 Checkout</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p class="footer-text">
+                ⚡ EasyStreet E-Bikes © 2024 | Quality Pre-Owned E-Bike Parts<br>
+                <small>All products tested & inspected | Free shipping on orders over $500</small>
+            </p>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Checkout Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <h2>🎉 Thank You!</h2>
+            <p>Your order has been placed successfully. We'll send you a confirmation email shortly.</p>
+            <button class="modal-btn" onclick="closeModal()">Continue Shopping</button>
+        </div>
+    </div>
+
+    <script>
+        // Product Data
+        const products = [
+            // E-Bikes
+            {
+                id: 1,
+                name: "VoltRunner X750",
+                category: "E-Bikes",
+                description: "Premium full-suspension electric mountain bike. 750W mid-drive motor with exceptional hill-climbing capability.",
+                price: 1899.00,
+                originalPrice: 3499.00,
+                condition: "Excellent",
+                specs: { "Motor": "750W Bafang", "Battery": "48V 17.5Ah", "Range": "50-70 miles", "Top Speed": "28 mph" },
+                emoji: "🚴"
+            },
+            {
+                id: 2,
+                name: "UrbanGlide Pro",
+                category: "E-Bikes",
+                description: "Sleek city commuter e-bike with integrated lights and fenders. Step-through frame design.",
+                price: 1299.00,
+                originalPrice: 2199.00,
+                condition: "Good",
+                specs: { "Motor": "500W Hub", "Battery": "48V 13Ah", "Range": "35-45 miles", "Top Speed": "25 mph" },
+                emoji: "🚲"
+            },
+            {
+                id: 3,
+                name: "ThunderBolt Fat Tire",
+                category: "E-Bikes",
+                description: "All-terrain fat tire e-bike built for sand, snow, and rough trails. Massive 4-inch tires.",
+                price: 1649.00,
+                originalPrice: 2899.00,
+                condition: "Excellent",
+                specs: { "Motor": "1000W Hub", "Battery": "52V 20Ah", "Range": "40-55 miles", "Top Speed": "30 mph" },
+                emoji: "⚡"
+            },
+            {
+                id: 4,
+                name: "SwiftFold Compact",
+                category: "E-Bikes",
+                description: "Lightweight folding e-bike perfect for RV travel or apartment storage. Folds in under 10 seconds.",
+                price: 899.00,
+                originalPrice: 1599.00,
+                condition: "Good",
+                specs: { "Motor": "350W Hub", "Battery": "36V 10Ah", "Range": "25-35 miles", "Top Speed": "20 mph" },
+                emoji: "🔋"
+            },
+            // Controllers
+            {
+                id: 5,
+                name: "SmartWave Controller 48V",
+                category: "Controllers",
+                description: "Programmable sine wave controller with regenerative braking. Bluetooth connectivity.",
+                price: 189.00,
+                originalPrice: 299.00,
+                condition: "Excellent",
+                specs: { "Voltage": "48V", "Max Current": "35A", "Type": "Sine Wave", "Features": "Regen, Bluetooth" },
+                emoji: "🎛️"
+            },
+            {
+                id: 6,
+                name: "TurboLogic 72V Controller",
+                category: "Controllers",
+                description: "High-power controller for performance builds. Built-in temperature protection.",
+                price: 279.00,
+                originalPrice: 449.00,
+                condition: "Good",
+                specs: { "Voltage": "72V", "Max Current": "50A", "Type": "FOC", "Features": "Temp Protection" },
+                emoji: "⚙️"
+            },
+            {
+                id: 7,
+                name: "EcoRide Basic Controller",
+                category: "Controllers",
+                description: "Reliable entry-level controller for DIY conversions. Plug-and-play compatibility.",
+                price: 79.00,
+                originalPrice: 129.00,
+                condition: "Fair",
+                specs: { "Voltage": "36V/48V", "Max Current": "22A", "Type": "Square Wave", "Features": "Plug & Play" },
+                emoji: "🔌"
+            },
+            // Batteries
+            {
+                id: 8,
+                name: "PowerCell 52V 20Ah Triangle",
+                category: "Batteries",
+                description: "High-capacity triangle frame battery with Samsung cells. Includes smart BMS.",
+                price: 549.00,
+                originalPrice: 899.00,
+                condition: "Excellent",
+                specs: { "Voltage": "52V", "Capacity": "20Ah / 1040Wh", "Cells": "Samsung 35E", "BMS": "30A Smart" },
+                emoji: "🔋"
+            },
+            {
+                id: 9,
+                name: "StealthPack 48V 17.5Ah",
+                category: "Batteries",
+                description: "Compact rear rack battery with sleek design. Water-resistant with key lock.",
+                price: 429.00,
+                originalPrice: 699.00,
+                condition: "Good",
+                specs: { "Voltage": "48V", "Capacity": "17.5Ah / 840Wh", "Cells": "LG MJ1", "BMS": "25A" },
+                emoji: "⚡"
+            },
+            {
+                id: 10,
+                name: "MegaRange 72V 30Ah",
+                category: "Batteries",
+                description: "Ultra-high capacity battery for maximum range. Perfect for long-distance touring.",
+                price: 899.00,
+                originalPrice: 1499.00,
+                condition: "Excellent",
+                specs: { "Voltage": "72V", "Capacity": "30Ah / 2160Wh", "Cells": "Samsung 50E", "BMS": "50A" },
+                emoji: "🔌"
+            },
+            // Motors
+            {
+                id: 11,
+                name: "Bafang BBSHD 1000W",
+                category: "Motors",
+                description: "Industry-leading mid-drive motor kit. Incredible torque for hill climbing.",
+                price: 549.00,
+                originalPrice: 899.00,
+                condition: "Excellent",
+                specs: { "Power": "1000W (1700W peak)", "Type": "Mid-Drive", "Torque": "160Nm", "Compatibility": "68-73mm BB" },
+                emoji: "⚙️"
+            },
+            {
+                id: 12,
+                name: "DirectDrive DD35 Hub Motor",
+                category: "Motors",
+                description: "Powerful direct-drive rear hub motor. Near-silent with regenerative braking.",
+                price: 329.00,
+                originalPrice: 549.00,
+                condition: "Good",
+                specs: { "Power": "1500W", "Type": "Direct Drive Hub", "Torque": "85Nm", "Size": "26-29 inch" },
+                emoji: "🔧"
+            },
+            {
+                id: 13,
+                name: "GearPro 500W Front Hub",
+                category: "Motors",
+                description: "Geared front hub motor for easy DIY conversions. Lightweight with excellent efficiency.",
+                price: 179.00,
+                originalPrice: 299.00,
+                condition: "Fair",
+                specs: { "Power": "500W", "Type": "Geared Hub", "Torque": "40Nm", "Size": "26 inch" },
+                emoji: "🛠️"
+            },
+            {
+                id: 14,
+                name: "CycloneX Pro 3000W",
+                category: "Motors",
+                description: "High-performance mid-drive for extreme builds. Aircraft-grade aluminum housing.",
+                price: 749.00,
+                originalPrice: 1299.00,
+                condition: "Excellent",
+                specs: { "Power": "3000W", "Type": "Mid-Drive", "Torque": "200Nm", "Compatibility": "Universal" },
+                emoji: "💨"
+            }
+        ];
+
+        // Cart state
+        let cart = [];
+        let currentCategory = 'all';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            setupTabs();
+        });
+
+        // Setup tab buttons
+        function setupTabs() {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentCategory = btn.dataset.category;
+                    renderProducts();
+                    updateSectionTitle();
+                });
+            });
+        }
+
+        // Update section title based on category
+        function updateSectionTitle() {
+            const titles = {
+                'all': '🔥 Featured Deals',
+                'E-Bikes': '🚴 Electric Bikes',
+                'Controllers': '🎛️ Controllers',
+                'Batteries': '🔋 Batteries',
+                'Motors': '⚙️ Motors'
+            };
+            document.querySelector('.section-title').textContent = titles[currentCategory];
+        }
+
+        // Render products
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            const filteredProducts = currentCategory === 'all' 
+                ? products 
+                : products.filter(p => p.category === currentCategory);
+
+            grid.innerHTML = filteredProducts.map(product => `
+                <div class="product-card">
+                    <div class="product-emoji">${product.emoji}</div>
+                    <div class="product-category">${product.category}</div>
+                    <div class="product-name">${product.name}</div>
+                    <div class="product-description">${product.description}</div>
+                    <div>
+                        <span class="product-price">$${product.price.toLocaleString('en-US', {minimumFractionDigits: 2})}</span>
+                        <span class="original-price">$${product.originalPrice.toLocaleString('en-US', {minimumFractionDigits: 2})}</span>
+                    </div>
+                    <span class="condition-badge condition-${product.condition.toLowerCase()}">${product.condition}</span>
+                    
+                    <button class="specs-toggle" onclick="toggleSpecs(${product.id})">
+                        📋 View Specs ▼
+                    </button>
+                    <div class="specs-content" id="specs-${product.id}">
+                        ${Object.entries(product.specs).map(([key, value]) => 
+                            `<p><strong>${key}:</strong> ${value}</p>`
+                        ).join('')}
+                    </div>
+                    
+                    <button class="add-btn" onclick="addToCart(${product.id})">Add to Cart</button>
+                </div>
+            `).join('');
+        }
+
+        // Toggle specs
+        function toggleSpecs(productId) {
+            const specs = document.getElementById(`specs-${productId}`);
+            specs.classList.toggle('show');
+        }
+
+        // Add to cart
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            cart.push(product);
+            updateCart();
+            showToast(`Added ${product.name} to cart! ⚡`);
+        }
+
+        // Remove from cart
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+        }
+
+        // Update cart display
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const cartSummary = document.getElementById('cart-summary');
+
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="cart-empty">Your cart is empty</p>';
+                cartSummary.style.display = 'none';
+            } else {
+                cartItems.innerHTML = cart.map((item, index) => `
+                    <div class="cart-item">
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-price">$${item.price.toLocaleString('en-US', {minimumFractionDigits: 2})}</div>
+                        </div>
+                        <button class="cart-remove" onclick="removeFromCart(${index})">×</button>
+                    </div>
+                `).join('');
+
+                const total = cart.reduce((sum, item) => sum + item.price, 0);
+                const savings = cart.reduce((sum, item) => sum + (item.originalPrice - item.price), 0);
+
+                document.getElementById('cart-total').textContent = total.toLocaleString('en-US', {minimumFractionDigits: 2});
+                document.getElementById('cart-savings').textContent = savings.toLocaleString('en-US', {minimumFractionDigits: 2});
+                cartSummary.style.display = 'block';
+            }
+        }
+
+        // Show toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // Checkout
+        function checkout() {
+            document.getElementById('modal').classList.add('show');
+            cart = [];
+            updateCart();
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('modal').classList.remove('show');
+        }
+    </script>
+</body>
+</html>
+
